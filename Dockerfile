@@ -25,3 +25,5 @@ CMD java -jar /data/hello-world-0.1.0.jar
 #copy hello world to docker image from builder image
 
 COPY --from=maven_build /tmp/target/hello-world-0.1.0.jar /data/hello-world-0.1.0.jar
+
+LABEL version="1.1"
