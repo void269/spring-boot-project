@@ -5,11 +5,11 @@ env:
     AWS_DEFAULT_REGION: "us-east-1"
     AWS_ACCOUNT_ID: "387125168819"
     IMAGE_REPO_NAME: "class-project/springboot"
-    IMAGE_TAG: "v${CODEBUILD_BUILD_NUMBER}"
 
 phases:
   pre_build:
     commands:
+      - IMAGE_TAG: "v${CODEBUILD_BUILD_NUMBER}"
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
     commands:
