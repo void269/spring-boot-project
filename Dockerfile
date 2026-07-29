@@ -1,6 +1,6 @@
 # Maven build container 
 
-FROM public.ecr.aws/docker/library/maven:3.9.14-eclipse-temurin-11 AS maven_build
+FROM public.ecr.aws/docker/library/maven:3.9.14-eclipse-temurin-17 AS maven_build
 
 COPY pom.xml /tmp/
 
@@ -12,18 +12,18 @@ RUN mvn package
 
 #pull base image
 
-FROM eclipse-temurin:11
+FROM public.ecr.aws/docker/library/eclipse-temurin:17
 
 #maintainer 
 MAINTAINER dstar55@yahoo.com
 #expose port 8080
 EXPOSE 8080
 
+COPY --from=maven_build /tmp/target/hello-world-0.1.0.jar /data/hello-world-0.1.0.jar
+
 #default command
 CMD java -jar /data/hello-world-0.1.0.jar
 
 #copy hello world to docker image from builder image
-
-COPY --from=maven_build /tmp/target/hello-world-0.1.0.jar /data/hello-world-0.1.0.jar
 
 LABEL version="1.1"
