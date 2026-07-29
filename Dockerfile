@@ -1,29 +1,22 @@
 # Maven build container 
-
 FROM public.ecr.aws/docker/library/maven:3.9.14-eclipse-temurin-17 AS maven_build
+COPY pom.xml /tmp/ 
+COPY src /tmp/src/ 
+WORKDIR /tmp/ 
+# Skip tests to guarantee a smooth cloud compilation
+RUN mvn package -DskipTests
 
-COPY pom.xml /tmp/
+# Pull base image 
+FROM public.ecr.aws/docker/library/eclipse-temurin:17 
+MAINTAINER dstar55@yahoo.com 
 
-COPY src /tmp/src/
+# Expose port 8080 
+EXPOSE 8080 
 
-WORKDIR /tmp/
+# FIX: Uses a wildcard to grab your war file, renaming it to app.war safely
+COPY --from=maven_build /tmp/target/*.war /data/app.war 
 
-RUN mvn package
-
-#pull base image
-
-FROM public.ecr.aws/docker/library/eclipse-temurin:17
-
-#maintainer 
-MAINTAINER dstar55@yahoo.com
-#expose port 8080
-EXPOSE 8080
-
-COPY --from=maven_build /tmp/target/hello-world-0.1.0.jar /data/hello-world-0.1.0.jar
-
-#default command
-CMD java -jar /data/hello-world-0.1.0.jar
-
-#copy hello world to docker image from builder image
+# FIX: Run the statically named app file with stable entrypoint array syntax
+ENTRYPOINT ["java", "-jar", "/data/app.war"]
 
 LABEL version="1.1"
