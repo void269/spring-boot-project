@@ -1,131 +1,71 @@
-Hello World sample shows how to deploy [SpringBoot](http://projects.spring.io/spring-boot/) RESTful web service application with [Docker](https://www.docker.com/) and with [Kubernetes](https://kubernetes.io/)
+# Spring Boot Hello World Project
 
-#### Prerequisite 
+Welcome to the Spring Boot "Hello World" project! This is a simple project that demonstrates the basic setup and structure of a Spring Boot application.
 
-Installed:   
-[Docker](https://www.docker.com/)   
-[git](https://www.digitalocean.com/community/tutorials/how-to-contribute-to-open-source-getting-started-with-git)   
+## Table of Contents
 
-Optional:   
-[Docker-Compose](https://docs.docker.com/compose/install/)   
-[Java 1.8 or 11.1](https://www.oracle.com/technetwork/java/javase/overview/index.html)   
-[Maven 3.x](https://maven.apache.org/install.html)
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
+## Introduction
 
-#### Steps
+This project serves as a starting point for understanding how to create a basic Spring Boot application that displays a "Hello, World!" message. It includes the necessary setup and dependencies to quickly get you up and running.
 
-##### Clone source code from git
-```
-git clone https://github.com/dstar55/docker-hello-world-spring-boot .
-```
+## Prerequisites
 
-##### Build Docker image
-```
-docker build -t="hello-world-java" .
-```
-Maven build will be executes during creation of the docker image.
+Before you begin, ensure you have met the following requirements:
 
->Note:if you run this command for first time it will take some time in order to download base image from [DockerHub](https://hub.docker.com/)
+- Java Development Kit (JDK) installed (version 17 or higher)
+- Maven build tool installed
 
-##### Run Docker Container
-```
-docker run -p 8080:8080 -it --rm hello-world-java
-```
+## Getting Started
 
-##### Test application
+To get a local copy of the project up and running, follow these steps:
 
-```
-curl localhost:8080
-```
+1. Clone the repository
 
-response should be:
-```
-Hello World
-```
+   ```sh
+   git clone https://github.com/Abhishake63/spring-boot-hello-world.git
+   ```
 
-#####  Stop Docker Container:
-```
-docker stop `docker container ls | grep "hello-world-java:*" | awk '{ print $1 }'`
-```
+2. Change directory
 
-### Run with docker-compose 
+   ```sh
+   cd helloworld
+   ```
 
-Build and start the container by running 
+3. Build the project and Run the application
 
-```
-docker-compose up -d 
-```
+   ```sh
+   mvn clean spring-boot:run
+   ```
 
-#### Test application with ***curl*** command
+## Usage
 
-```
-curl localhost:8080
-```
+Once the application is running, open your web browser and navigate to http://localhost:8081. You should see a "Hello, World!" message displayed.
 
-response should be:
-```
-Hello World
-```
+Feel free to modify the message or explore the code to understand how the Spring Boot application is structured.
 
-##### Stop Docker Container:
-```
-docker-compose down
-```
+## Contributing
 
-### Deploy under the Kuberenetes cluster
+Contributions are welcome! If you'd like to contribute to this project, follow these steps:
 
-#### Prerequisite
+1. Fork the project from the GitHub repository.
+2. Create a new branch with a descriptive name.
+3. Make your desired changes.
+4. Commit and push your changes to your fork.
+5. Create a pull request detailing your changes.
 
-##### MiniKube
+## License
 
-Installed:
-[MiniKube](https://www.digitalocean.com/community/tutorials/how-to-use-minikube-for-local-kubernetes-development-and-testing)
+This project is licensed under the [MIT License](LICENSE).
 
-Start minikube with command:
-```
-minikube start
-```
+---
 
+Happy coding!
 
-#### Retrieve and deploy application
-
-```
-kubectl create deployment hello-spring-boot --image=dstar55/docker-hello-world-spring-boot:latest
-```
-
-#### Expose deployment as a Kubernetes Service
-```
-kubectl expose deployment hello-spring-boot --type=NodePort --port=8080
-```
-
-#### Check whether the service is running
-```
-kubectl get service hello-spring-boot
-```
-
-response should something like:
-```
-NAME                TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-hello-spring-boot   NodePort   xx.xx.xxx.xxx   <none>        8080:xxxxx/TCP   59m
-```
-
-#### Retrieve URL for application(hello-spring-boot)
-```
-minikube service hello-spring-boot --url
-```
-
-response will be http..., e.g:
-```
-http://127.0.0.1:44963
-```
-
-#### Test application with ***curl*** command(note: port is randomly created)
-
-```
-curl 127.0.0.1:44963
-```
-
-response should be:
-```
-Hello World
-```
+For more information about Spring Boot, visit the [official documentation](https://spring.io/projects/spring-boot).
