@@ -19,4 +19,4 @@ COPY --from=maven_build /tmp/target/*.war /data/app.war
 # FIX: Run the statically named app file with stable entrypoint array syntax
 ENTRYPOINT ["java", "-jar", "/data/app.war"]
 
-LABEL version="1.1"
+LABEL version="1.2"
